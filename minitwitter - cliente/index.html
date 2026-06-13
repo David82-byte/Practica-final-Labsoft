@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="minitwitterApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / MiniTwitter Angular</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="LoginController">
+
+    <h2>Minitwitter - Iniciar Sesión (Angular)</h2>
+
+    <form ng-submit="hacerLogin()">
+        <div>
+            <label>Usuario:</label>
+            <input type="text" ng-model="usuario" required>
+        </div>
+        <br>
+        <div>
+            <label>Contraseña:</label>
+            <input type="password" ng-model="password" required>
+        </div>
+        <br>
+        <button type="submit">Entrar</button>
+    </form>
+
+    <div style="color: red; margin-top: 10px;" ng-show="mensajeError">
+        {{ mensajeError }}
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="minitwitterApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-controller="PanelController">
+
+    <header class="cabecera-panel">
+        <h2>Panel de MiniTwitter</h2>
+        <button ng-click="cerrarSesion()" class="btn-cerrar-sesion">Cerrar Sesión</button>
+    </header>
+
+<section class="contenedor-crear">
+        <h3>Escribir un nuevo tuit</h3>
+        <form ng-submit="crearTuit()">
+            <textarea ng-model="nuevoTexto" placeholder="¿Qué está pasando?" required class="input-tuit"></textarea>
+            <br><br>
+            
+            <label>Adjuntar archivo (Opcional):</label>
+            <select ng-model="tipoMedia">
+                <option value="">Ninguno</option>
+                <option value="foto">Foto (URL)</option>
+                <option value="video">Vídeo MP4 (URL)</option>
+                <option value="youtube">YouTube (URL Embed)</option>
+            </select>
+            
+            <input type="text" ng-model="urlMedia" ng-show="tipoMedia" placeholder="Pega aquí la URL">
+            <br><br>
+
+            <button type="submit" class="btn-publicar">Publicar Tuit</button>
+        </form>
+    </section>
+
+    <section class="contenedor-tuits">
+        <h3>Últimos Tuits</h3>
+        <p ng-show="tuits.length === 0" class="mensaje-vacio">No hay tuits todavía. ¡Escribe el primero!</p>
+
+        <div ng-repeat="tuit in tuits" class="tuit-caja">
+            <p class="tuit-texto">{{ tuit.texto }}</p>
+            
+            <div style="margin-bottom: 15px;">
+                <img ng-if="tuit.tipo_media === 'foto'" ng-src="{{ tuit.url_media }}" style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+                
+                <video ng-if="tuit.tipo_media === 'video'" controls style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+                    <source ng-src="{{ tuit.url_segura }}" type="video/mp4">
+                </video>
+                
+                <iframe ng-if="tuit.tipo_media === 'youtube'" width="100%" height="315" ng-src="{{ tuit.url_segura }}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
+            </div>
+            
+            <button ng-click="borrarTuit(tuit.id)" class="btn-borrar">
+                Borrar Tuit
+            </button>
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+</body>
+</html>
