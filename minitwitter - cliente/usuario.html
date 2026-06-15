@@ -2,13 +2,16 @@
 <html lang="es" ng-app="minitwitterApp">
 <head>
     <meta charset="UTF-8">
-    <title>Panel de Administración</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <title>Usuario</title>
+    <link rel="icon" type="image/x-icon" href="img\favicon.ico">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css\modal.css">
 </head>
-<body ng-controller="PanelController">
+<body ng-controller="UserController">
 
     <header class="cabecera-panel">
-        <h2>Panel de MiniTwitter</h2>
+        <h2>Usuario de MiniTwitter</h2>
         <button ng-click="cerrarSesion()" class="btn-cerrar-sesion">Cerrar Sesión</button>
     </header>
 
@@ -50,12 +53,13 @@
                 <iframe ng-if="tuit.tipo_media === 'youtube'" width="100%" height="315" ng-src="{{ tuit.url_segura }}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
             </div>
             
-            <button ng-click="borrarTuit(tuit.id)" class="btn-borrar">
+            <button ng-if="tuit.usuario_id == miId" ng-click="borrarTuit(tuit.id)" class="btn-borrar">
                 Borrar Tuit
             </button>
         </div>
     </section>
 
-    <script src="app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js\app.js"></script>
 </body>
 </html>

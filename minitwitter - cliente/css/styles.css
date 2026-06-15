@@ -1,0 +1,271 @@
+/* variables de color */
+:root {
+    --bg-body: #0d8ddb; /* fondo de la pagina azul claro */
+    --bg-muro: #ffffff; /* fondo feed central blanco */
+    --color-primario: #1da1f2; /* azul */
+    --color-texto: #0f1419; /* negro */
+    --color-gris: #536471; /* fechas y usuarios */
+    --color-borde: #eeeeee; /* lineas para separar tuits */
+}
+
+/* reseteo */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* cuerpo de la pagina */
+body {
+    background: linear-gradient(135deg, var(--color-primario), var(--bg-body));
+    color: var(--color-texto);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ESTRUCTURA PRINCIPAL */
+
+/* barra superior fija */
+nav {
+    background-color: #f8f9fa; /* fondo gris claro */
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--color-borde);
+    display: flex;
+    justify-content: space-between; /* logo izq, botones der */
+    position: sticky; /* se queda pegada al scrollear */
+    top: 0;
+}
+
+/* logo */
+nav a {
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primario);
+}
+
+/* botones barra superior */
+nav div {
+    display: flex;
+    gap: 10px;
+}
+
+nav div button {
+    font-size: 0.95rem;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+nav div button:hover {
+    background-color: var(--color-borde);
+}
+
+#btnNuevoTuit {
+    background-color: var(--color-primario);
+}
+
+#btnNuevoTuit:hover {
+    background-color: var(--bg-body);
+}
+
+#btnLogout {
+    background-color: #dc3545;
+}
+
+#btnLogout:hover {
+    background-color: #bb2d3b;
+}
+
+/* contenedor central */
+main {
+    background-color: var(--bg-muro);
+    max-width: 700px;
+    min-height: 100vh; /* que llegue hasta abajo del todo siempfe */
+    border-left: 1px solid var(--color-borde);
+    border-right: 1px solid var(--color-borde);
+    margin: 0 auto; /* centrar columna en la pantalla */
+}
+
+/* cabeceras de las paginas */
+main > header, section > h3 {
+    font-size: 1.2rem;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+/* TUITS */
+#listaTuits {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+/* MENSAJE SIN TUITS */
+#listaTuits h1 {
+    text-align: center;
+    color: #777;
+}
+
+/* tarjeta de cada tuit */
+article {
+    padding: 10px;
+    border: 1px solid var(--color-borde);
+    margin: 10px;
+    transition: background-color 0.2s;
+}
+
+/* cambio ligero de color de fondo al pasar raton */
+article:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* cabecera del tuit */
+article header {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* separar foto y textos */
+    margin-bottom: 8px;
+}
+
+/* foto de perfil */
+.avatar {
+    width: 48px;
+    border-radius: 50%; /* la hace redondita */
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.avatar:hover {
+    opacity: 0.2s;
+}
+
+/* textos cabecera */
+.name {
+    font-weight: 800;
+    cursor:pointer;
+}
+
+.name:hover {
+    text-decoration: underline;
+}
+
+.fecha {
+    color: var(--color-gris);
+    font-size: 0.9rem;
+}
+
+/* mensaje */
+.texto {
+    font-size: 1.1rem;
+    line-height: 1.5; /* separar lineas pa leer mejor */
+    margin-bottom: 12px;
+}
+
+/* multimedia */
+.media img, .media video, .media iframe {
+    max-width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--color-borde);
+    display: block;
+}
+
+/* BOTONES */
+
+/* contenedor de los botones debajo del texto */
+article footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    max-width: 420px;
+}
+
+/* reseteo del estilo feo */
+article footer button {
+    color: var(--color-gris);
+    font-size: 0.95rem;
+    background: none;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 50px;
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Animación hover */
+button:hover i {
+    transform: scale(1.2);
+}
+
+.btnResponder:hover {
+    color: var(--color-primario);
+    background-color: rgba(29, 155, 240, 0.1);
+}
+
+.btnRetuit:hover {
+    color: #00ba7c;
+    background-color: rgba(0, 186, 124, 0.1);
+}
+
+/* RETUIT pulsado */
+.btnRetuit.activo {
+    color: #17bf63;
+    font-weight: bold;
+}
+
+.btnLike:hover {
+    color: #f91880;
+    background-color: rgba(249, 24, 128, 0.1);
+}
+
+/* LIKE pulsado */
+.btnLike.activo {
+    color: #e0245e;
+    font-weight: bold;
+}
+
+.btnEliminar {
+    display:none;
+}
+
+.btnEliminar:hover {
+    color: #f4212e;
+    background-color: rgba(244, 33, 46, 0.1);
+}
+
+/* Animación al activar */
+.btnLike.activo,
+.btnRetuit.activo {
+    transform: scale(1.1);
+}
+
+/* Transición suave */
+#listaTuits article button {
+    transition: all 0.2s ease;
+}
+
+/* ===== PAGINACIÓN ===== */
+main > footer {
+    padding: 20px 0; /* padding arriba y abajo */
+    display: flex;
+    justify-content: center;
+}
+
+main > footer button {
+    color: var(--bg-muro);
+    background: var(--color-primario);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    margin: 0 8px; /* margin izquierda y derecha */
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+main > footer button:hover {
+    background: var(--bg-body);
+}

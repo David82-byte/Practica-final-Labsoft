@@ -1,3 +1,4 @@
+const API_URL = "http://localhost:3000";
 // Inicializamos la aplicación de Angular
 const app = angular.module('minitwitterApp', []);
 
@@ -20,17 +21,23 @@ app.controller('LoginController', function($scope, $http, $window) {
         // Hacemos la petición POST al servidor
         $http({
             method: 'POST',
-            url: 'http://localhost:3000/login',
+            url: API_URL + '/login',
             data: datosLogin
         }).then(function(respuesta) {
             // El servidor nos ha dado el ok y el token
             
             // Guardamos el token en la memoria del navegador 
             $window.sessionStorage.setItem('token', respuesta.data.session_id);
+            $window.sessionStorage.setItem("id", respuesta.data.id);
+            $window.sessionStorage.setItem("username", respuesta.data.username);
             
             alert("¡Login correcto!");
-            
-            $window.location.href = "panel.html";
+
+            if($scope.usuario === "admin"){
+                $window.location.href = "admin.html";
+            } else{
+                $window.location.href = "usuario.html";
+            }
 
         }).catch(function(error) {
             // ERROR: El servidor nos devuelve un 401 (credenciales incorrectas)
@@ -43,8 +50,8 @@ app.controller('LoginController', function($scope, $http, $window) {
     };
 });
 
-// CONTROLADOR DEL PANEL DE ADMINISTRACIÓN
-app.controller('PanelController', function($scope, $http, $window, $sce) {
+// CONTROLADOR DEL LA PAGINA DE USUARIOS
+app.controller('UserController', function($scope, $http, $window, $sce) {
     
     // Comprobamos si el usuario tiene el pase
     const miToken = $window.sessionStorage.getItem('token');
@@ -54,12 +61,14 @@ app.controller('PanelController', function($scope, $http, $window, $sce) {
         return;
     }
 
+    $scope.miId = $window.sessionStorage.getItem("id");
+
     // Variable donde Angular guardará la lista de tuits
     $scope.tuits = [];
 
     // FUNCIÓN PARA LEER LOS TUITS (El GET)
     $scope.cargarTuits = function() {
-        $http.get('http://localhost:3000/tuits').then(function(respuesta) {
+        $http.get(API_URL + '/tuits').then(function(respuesta) {
            // Recorrer tuits para decir a Angular que confíe en las URLs multimedia
             $scope.tuits = respuesta.data.map(function(tuit) {
                 // Versión segura de la URL
@@ -75,12 +84,12 @@ app.controller('PanelController', function($scope, $http, $window, $sce) {
     $scope.crearTuit = function() {
         const datosTuit = {
             texto: $scope.nuevoTexto,
-            usuario_id: 1, // Por simplicidad, asumimos que somos el usuario 1 (admin)
+            usuario_id: $scope.miId,
             tipo_media : $scope.tipoMedia || '', // foto, video o youtube
             url_media: $scope.urlMedia || '0'
         };
 
-        $http.post('http://localhost:3000/tuit', datosTuit).then(function(respuesta) {
+        $http.post(API_URL + '/tuit', datosTuit).then(function(respuesta) {
             $scope.nuevoTexto = ""; // Vaciamos la caja de texto
             $scope.tipoMedia = ""; // Vaciar selector
             $scope.urlMedia = ""; // Limpiar URL
@@ -91,7 +100,17 @@ app.controller('PanelController', function($scope, $http, $window, $sce) {
     // FUNCIÓN PARA BORRAR UN TUIT (El "DELETE")
     $scope.borrarTuit = function(idTuit) {
         if(confirm("¿Seguro que quieres borrar este tuit?")) {
-            $http.delete('http://localhost:3000/tuit/' + idTuit).then(function(respuesta) {
+            $http({
+                method: 'DELETE',
+                url: API_URL + '/tuit/' + idTuit,
+                data: {
+                    usuario_id: sessionStorage.getItem("id")
+                },
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                }
+            })
+            .then(function(respuesta) {
                 $scope.cargarTuits(); // Recargamos la lista tras borrar
             });
         }

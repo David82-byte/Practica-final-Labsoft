@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="minitwitterApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link rel="icon" type="image/x-icon" href="img\favicon.ico">    
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css\modal.css">
+</head>
+<body ng-controller="AdminController">
+
+    <header class="navbar">
+        <h1>Panel de Administración</h1>
+
+        <div>
+            <span>{{usuario.nombre}}</span>
+            <button ng-click="logout()">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- USUARIOS -->
+        <section class="card">
+
+            <div class="section-header">
+                <h2>Usuarios</h2>
+                <button ng-click="mostrarFormularioUsuario = !mostrarFormularioUsuario">
+                    Nuevo Usuario
+                </button>
+            </div>
+
+            <form ng-show="mostrarFormularioUsuario"
+                  ng-submit="crearUsuario()">
+
+                <input
+                    type="text"
+                    placeholder="Usuario"
+                    ng-model="nuevoUsuario.username"
+                    required>
+
+                <input
+                    type="password"
+                    placeholder="Contraseña"
+                    ng-model="nuevoUsuario.passwd"
+                    required>
+
+                <button type="submit">Guardar</button>
+
+            </form>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr ng-repeat="u in usuarios">
+
+                        <td>{{u.id}}</td>
+                        <td>{{u.username}}</td>
+
+                        <td>
+                            <button ng-click="editarUsuario(u)">
+                                Editar
+                            </button>
+
+                            <button ng-if="u.username !== 'admin'" ng-click="eliminarUsuario(u.id)">
+                                Eliminar
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- TUITS -->
+        <section class="card">
+
+            <div class="section-header">
+                <h2>Tuits</h2>
+            </div>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Texto</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="tuit in tuits">
+
+                        <td>{{tuit.id}}</td>
+                        <td>{{tuit.usuario}}</td>
+                        <td>{{tuit.texto}}</td>
+
+                        <td>
+
+                            <button ng-click="verTuit(tuit)">
+                                Ver
+                            </button>
+
+                            <button ng-click="eliminarTuit(tuit.id)">
+                                Eliminar
+                            </button>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

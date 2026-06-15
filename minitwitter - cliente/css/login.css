@@ -1,0 +1,66 @@
+/* Contenedor principal */
+main {
+    text-align: center;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 350px;
+    min-height: 0; /* que no llegue hasta abajo del todo */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 20vh;
+}
+
+/* Título */
+main h2 {
+    color: #1da1f2;
+    margin-bottom: 25px;
+}
+
+/* Formulario */
+form div {
+    text-align: left;
+}
+
+/* Inputs */
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 5px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+/* Focus en inputs */
+input:focus {
+    border-color: #1da1f2;
+    outline: none;
+    box-shadow: 0 0 5px rgba(29, 161, 242, 0.5);
+}
+
+/* Botón */
+button {
+    background: #1da1f2;
+    color: white;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    margin-top: 15px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover botón */
+button:hover {
+    background: #0d8ddb;
+}
+
+/* Mensaje de error */
+#mensajeError {
+    font-weight: bold;
+    color: red;
+    margin-top: 15px;
+    display: none;
+}

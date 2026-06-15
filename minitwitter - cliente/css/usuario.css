@@ -1,0 +1,12 @@
+#cabeceraPerfil {
+    text-align: center;
+    padding: 20px;
+}
+
+.avatar, .name {
+    cursor:auto;
+}
+
+.name:hover {
+    text-decoration: none;    
+}
