@@ -81,16 +81,36 @@ app.controller("AdminController", function ($scope, $http, $window) {
     };
 
     $scope.eliminarTuit = function (id) {
+        if (!confirm("¿Seguro que quieres eliminar este tuit?")) return;
 
-        if (!confirm("¿Eliminar tuit?")) return;
-
-        $http.delete(API_URL + "/tuit/" + id)
+        $http({
+            method: 'DELETE',
+            url: API_URL + '/tuit/' + id,
+            data: {
+                usuario_id: sessionStorage.getItem("id")
+            },
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            }
+        })
         .then(function () {
-
             $scope.cargarTuits();
-
+        })
+        .catch(function(err){
+            alert("Error al borrar el tuit. Comprueba el servidor.");
         });
+    };
 
+    $scope.verTuit = function(tuit) {
+        let mensaje = "Autor: " + tuit.usuario + "\nTexto: " + tuit.texto;
+        
+        if (tuit.tipo_media && tuit.url_media && tuit.url_media !== '0') {
+            mensaje += "\n\n[Multimedia - " + tuit.tipo_media.toUpperCase() + "]:\n" + tuit.url_media;
+        } else {
+            mensaje += "\n\nEste tuit no incluye archivos multimedia.";
+        }
+        
+        alert(mensaje);
     };
 
     $scope.logout = function () {

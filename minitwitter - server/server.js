@@ -125,24 +125,22 @@ app.post('/tuit', (req, res) => {
 });
 
 app.delete('/tuit/:id', (req, res) => {
-    const usuarioId = req.body?.usuario_id;
-    
-    db.get("SELECT usuario_id FROM tuits WHERE id=?", [req.params.id], (err, row) => {
-        if (err) {
-            return res.status(500).json(err);
+    const tuitId = req.params.id;
+    const usuarioId = req.body.usuario_id;
+
+    db.get("SELECT usuario_id FROM tuits WHERE id = ?", [tuitId], (err, row) => {
+        if (err || !row) {
+            return res.status(404).json({ error: "Tuit no encontrado" });
         }
-        if (!row) {
-            return res.status(404).json({
-                error: "Tuit no encontrado"
+
+        if (row.usuario_id == usuarioId || usuarioId == 1) {
+            db.run("DELETE FROM tuits WHERE id = ?", [tuitId], (err) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json({ status: "ok" });
             });
+        } else {
+            res.status(403).json({ error: "No tienes permisos para borrar este tuit" });
         }
-        if(row.usuario_id != usuarioId){
-            return res.status(403).json({
-                error: "No autorizado"
-            });
-        }
-        // Borrar un tuit
-        db.run("DELETE FROM tuits WHERE id = ?", [req.params.id], () => res.json({ status: "Borrado" }));
     });
 });
 
