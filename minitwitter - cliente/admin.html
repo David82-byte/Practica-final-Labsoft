@@ -26,13 +26,10 @@
 
             <div class="section-header">
                 <h2>Usuarios</h2>
-                <button ng-click="mostrarFormularioUsuario = !mostrarFormularioUsuario">
-                    Nuevo Usuario
-                </button>
+                <button ng-click="mostrarFormularioUsuario = !mostrarFormularioUsuario"> Nuevo Usuario </button>
             </div>
 
-            <form ng-show="mostrarFormularioUsuario"
-                  ng-submit="crearUsuario()">
+            <form ng-show="mostrarFormularioUsuario" ng-submit="crearUsuario()">
 
                 <input
                     type="text"
@@ -51,38 +48,47 @@
             </form>
 
             <table>
-
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Usuario</th>
+                        <th>Contraseña</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     <tr ng-repeat="u in usuarios">
 
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
+                        <td>{{u.passwd}}</td>
 
                         <td>
-                            <button ng-click="editarUsuario(u)">
-                                Editar
-                            </button>
+                            <!-- <button ng-click="editarUsuario(u)"> Editar </button> -->
+                            <button ng-click="mostrarEditarUsuario = !mostrarEditarUsuario"> Editar </button>
 
-                            <button ng-if="u.username !== 'admin'" ng-click="eliminarUsuario(u.id)">
-                                Eliminar
-                            </button>
+                            <form ng-show="mostrarEditarUsuario" ng-submit="editarUsuario(u)">
+                                <input
+                                    type="text"
+                                    placeholder="Usuario"
+                                    ng-model="u.username"
+                                    required>
+
+                                <input
+                                    type="text"
+                                    placeholder="Contraseña"
+                                    ng-model="u.passwd"
+                                    required>
+
+                                <button type="submit">Guardar</button>
+                            </form>
+
+                            <button ng-if="u.username !== 'admin'" ng-click="eliminarUsuario(u.id)"> Eliminar </button>
                         </td>
-
                     </tr>
-
                 </tbody>
-
             </table>
-
         </section>
 
         <!-- TUITS -->

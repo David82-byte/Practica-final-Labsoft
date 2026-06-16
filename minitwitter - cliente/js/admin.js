@@ -52,13 +52,14 @@ app.controller("AdminController", function ($scope, $http, $window) {
 
     $scope.editarUsuario = function(usuario){
 
-        let nuevoNombre =
-            prompt("Nuevo nombre", usuario.username);
+        const nuevoNombre = prompt("Nuevo nombre", usuario.username);
+        const nuevaPasswd = prompt("Nueva contraseña", usuario.passwd);
 
-        if(!nuevoNombre) return;
+        if(!nuevoNombre||!nuevaPasswd) return;
 
         $http.put(API_URL + "/usuarios/" + usuario.id, {
-            username: nuevoNombre
+            username: nuevoNombre,
+            passwd: nuevaPasswd
         })
         .then(function(){
             $scope.cargarUsuarios();

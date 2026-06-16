@@ -48,7 +48,7 @@ app.post('/login', (req, res) => {
 // LISTAR USUARIOS
 app.get('/usuarios', (req, res) => {
     db.all(
-        "SELECT id, username FROM usuarios",
+        "SELECT id, username, passwd FROM usuarios",
         [],
         (err, rows) => res.json(rows)
     );
@@ -83,10 +83,10 @@ app.post('/usuarios', (req, res) => {
 // EDITAR USUARIO
 app.put('/usuarios/:id', (req, res) => {
 
-    db.run(
-        "UPDATE usuarios SET username=? WHERE id=?",
+    db.run("UPDATE usuarios SET username=?, passwd=? WHERE id=?",
         [
             req.body.username,
+            req.body.passwd,
             req.params.id
         ],
         () => res.json({status:"ok"})
