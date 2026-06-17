@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Panel de Administración</title>
-    <link rel="icon" type="image/x-icon" href="img\favicon.ico">    
+    <link rel="icon" type="image/x-icon" href="img\favicon.ico">
+    <!-- Font Awesome (Iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">   
 
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css\modal.css">
@@ -37,14 +39,19 @@
                     ng-model="nuevoUsuario.username"
                     required>
 
-                <input
-                    type="password"
-                    placeholder="Contraseña"
-                    ng-model="nuevoUsuario.passwd"
-                    required>
+                <div style="display:flex; gap:5px; align-items:center;">
+                    <input
+                        ng-attr-type="{{mostrarPassword ? 'text' : 'password'}}"
+                        placeholder="Contraseña"
+                        ng-model="nuevoUsuario.passwd"
+                        required>
+
+                    <button type="button" ng-click="mostrarPassword = !mostrarPassword">
+                        <i class="fa-solid" ng-class="mostrarPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    </button>
+                </div>
 
                 <button type="submit">Guardar</button>
-
             </form>
 
             <table>
@@ -75,11 +82,17 @@
                                     ng-model="u.username"
                                     required>
 
-                                <input
-                                    type="text"
-                                    placeholder="Contraseña"
-                                    ng-model="u.passwd"
-                                    required>
+                                <div style="display:flex; gap:5px; align-items:center;">
+                                    <input
+                                        ng-attr-type="{{mostrarPassword ? 'text' : 'password'}}"
+                                        placeholder="Contraseña"
+                                        ng-model="u.passwd"
+                                        required>
+
+                                    <button type="button" ng-click="mostrarPassword = !mostrarPassword">
+                                        <i class="fa-solid" ng-class="mostrarPassword ? 'fa-eye-slash' : 'fa-eye'"></i>
+                                    </button>
+                                </div>
 
                                 <button type="submit">Guardar</button>
                             </form>

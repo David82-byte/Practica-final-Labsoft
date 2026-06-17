@@ -4,62 +4,93 @@
     <meta charset="UTF-8">
     <title>Usuario</title>
     <link rel="icon" type="image/x-icon" href="img\favicon.ico">
+    <!-- Font Awesome (Iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css\modal.css">
+    <link rel="stylesheet" href="css\usuario.css">
 </head>
 <body ng-controller="UserController">
-
-    <header class="cabecera-panel">
+    <nav>
         <h2>Usuario de MiniTwitter</h2>
-        <button ng-click="cerrarSesion()" class="btn-cerrar-sesion">Cerrar Sesión</button>
-    </header>
 
-<section class="contenedor-crear">
-        <h3>Escribir un nuevo tuit</h3>
+        <div>
+            <button ng-click="modalVisible = true" id="btnNuevoTuit">
+                <i class="fas fa-pen"></i> Tuitear <!-- Icono Tuitear -->
+            </button>
+
+            <button ng-click="cerrarSesion()" id="btnLogout">
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión <!-- Icono Salir -->
+            </button>
+        </div>
+    </nav>
+
+    <!-- MODAL CREAR TUIT -->
+    <div ng-show="modalVisible" id="modalTuit">
         <form ng-submit="crearTuit()">
-            <textarea ng-model="nuevoTexto" placeholder="¿Qué está pasando?" required class="input-tuit"></textarea>
-            <br><br>
+            <h4>Escribir un nuevo tuit</h4>
+
+            <textarea ng-model="nuevoTexto" placeholder="¿Qué estás pensando?" required id="textoTuit"></textarea>
             
             <label>Adjuntar archivo (Opcional):</label>
-            <select ng-model="tipoMedia">
+            <select ng-model="tipoMedia" id="mediaType">
                 <option value="">Ninguno</option>
-                <option value="foto">Foto (URL)</option>
+                <option value="image">Imagen (URL)</option>
                 <option value="video">Vídeo MP4 (URL)</option>
                 <option value="youtube">YouTube (URL Embed)</option>
             </select>
             
-            <input type="text" ng-model="urlMedia" ng-show="tipoMedia" placeholder="Pega aquí la URL">
-            <br><br>
-
-            <button type="submit" class="btn-publicar">Publicar Tuit</button>
+            <input type="text" ng-model="urlMedia" ng-show="tipoMedia" placeholder="Pega aquí la URL" id="mediaUrl">
+        
+            <footer>
+                <button type="submit" id="btnPublicar">Publicar Tuit</button>
+                <button ng-click="modalVisible = false" id="btnCancelar">Cancelar</button>
+            </footer>
         </form>
-    </section>
+    </div>
 
-    <section class="contenedor-tuits">
-        <h3>Últimos Tuits</h3>
-        <p ng-show="tuits.length === 0" class="mensaje-vacio">No hay tuits todavía. ¡Escribe el primero!</p>
+    <main>
+        <section id="listaTuits">
+            <h1>Últimos Tuits</h1>
+            <p ng-show="tuits.length === 0">No hay tuits todavía. ¡Escribe el primero!</p>
 
-        <div ng-repeat="tuit in tuits" class="tuit-caja">
-            <p class="tuit-texto">{{ tuit.texto }}</p>
-            
-            <div style="margin-bottom: 15px;">
-                <img ng-if="tuit.tipo_media === 'foto'" ng-src="{{ tuit.url_media }}" style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+            <article ng-repeat="tuit in tuits" class="tuit-caja">
+                <header>
+                    <img
+                        class="avatar"
+                        ng-src="https://ui-avatars.com/api/?name={{tuit.usuario}}"
+                        alt="avatar">
+
+                    <span class="name">{{tuit.usuario}}</span>
+                </header>
+
+                <!-- TEXTO -->
+                <p class="texto">{{ tuit.texto }}</p>
                 
-                <video ng-if="tuit.tipo_media === 'video'" controls style="max-width: 100%; max-height: 300px; border-radius: 8px;">
-                    <source ng-src="{{ tuit.url_segura }}" type="video/mp4">
-                </video>
+                <!-- MEDIA -->
+                <div class="media">
+                    <!-- IMAGEN -->
+                    <img ng-if="tuit.tipo_media === 'image'" ng-src="{{ tuit.url_media }}">
+                    <!-- VIDEO -->
+                    <video ng-if="tuit.tipo_media === 'video'" controls>
+                        <source ng-src="{{ tuit.url_segura }}" type="video/mp4">
+                    </video>
+                    <!-- YOUTUBE -->
+                    <iframe ng-if="tuit.tipo_media === 'youtube'" ng-src="{{ tuit.url_segura }}" allowfullscreen></iframe>
+                </div>
                 
-                <iframe ng-if="tuit.tipo_media === 'youtube'" width="100%" height="315" ng-src="{{ tuit.url_segura }}" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
-            </div>
-            
-            <button ng-if="tuit.usuario_id == miId" ng-click="borrarTuit(tuit.id)" class="btn-borrar">
-                Borrar Tuit
-            </button>
-        </div>
-    </section>
+                <!-- ACCIONES -->
+                <footer>
+                    <button ng-if="tuit.usuario_id == miId" ng-click="borrarTuit(tuit.id)" title="Eliminar" class="btnEliminar">
+                        <i class="fa-solid fa-trash"></i> <!-- Icono Eliminar -->
+                    </button>
+                </footer>
+            </article>
+        </section>
+    </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="js\app.js"></script>
+    <script src="js\usuario.js"></script>
 </body>
 </html>

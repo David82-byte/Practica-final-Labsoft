@@ -1,67 +1,24 @@
 const API_URL = "http://localhost:3000";
 // Inicializamos la aplicación de Angular
-const app = angular.module('minitwitterApp', []);
-
-// Creamos el controlador
-// Le inyectamos $scope (variables de la vista), $http (hablar con el servidor) y $window (usar sessionStorage)
-app.controller('LoginController', function($scope, $http, $window) {
-    
-    // Función que se ejecuta al enviar el formulario (el ng-submit)
-    $scope.hacerLogin = function() {
-        
-        // Limpiar errores anteriores
-        $scope.mensajeError = "";
-
-        // Preparar los datos
-        const datosLogin = {
-            user: $scope.usuario,
-            passwd: $scope.password
-        };
-
-        // Hacemos la petición POST al servidor
-        $http({
-            method: 'POST',
-            url: API_URL + '/login',
-            data: datosLogin
-        }).then(function(respuesta) {
-            // El servidor nos ha dado el ok y el token
-            
-            // Guardamos el token en la memoria del navegador 
-            $window.sessionStorage.setItem('token', respuesta.data.session_id);
-            $window.sessionStorage.setItem("id", respuesta.data.id);
-            $window.sessionStorage.setItem("username", respuesta.data.username);
-            
-            alert("¡Login correcto!");
-
-            if($scope.usuario === "admin"){
-                $window.location.href = "admin.html";
-            } else{
-                $window.location.href = "usuario.html";
-            }
-
-        }).catch(function(error) {
-            // ERROR: El servidor nos devuelve un 401 (credenciales incorrectas)
-            if (error.status === 401) {
-                $scope.mensajeError = "Usuario o contraseña incorrectos.";
-            } else {
-                $scope.mensajeError = "Error al conectar con el servidor.";
-            }
-        });
-    };
-});
+angular.module('minitwitterApp', [])
 
 // CONTROLADOR DEL LA PAGINA DE USUARIOS
-app.controller('UserController', function($scope, $http, $window, $sce) {
+// Le inyectamos $scope (variables de la vista), $http (hablar con el servidor) y $window (usar sessionStorage)
+.controller('UserController', function($scope, $http, $window, $sce) {
     
     // Comprobamos si el usuario tiene el pase
-    const miToken = $window.sessionStorage.getItem('token');
-    if (!miToken) {
-        alert("No estás logueado.");
-        $window.location.href = "index.html"; // Lo echamos fuera
-        return;
-    }
+    $scope.token = $window.sessionStorage.getItem('token');
+    $scope.comprobarToken = function() {
+        if (!$scope.token) {
+            alert("No estás logueado.");
+            $window.location.href = "index.html"; // Lo echamos fuera
+            return;
+        }
+    };
+    $scope.comprobarToken();
 
     $scope.miId = $window.sessionStorage.getItem("id");
+    $scope.modalVisible = false;
 
     // Variable donde Angular guardará la lista de tuits
     $scope.tuits = [];
@@ -85,7 +42,7 @@ app.controller('UserController', function($scope, $http, $window, $sce) {
         const datosTuit = {
             texto: $scope.nuevoTexto,
             usuario_id: $scope.miId,
-            tipo_media : $scope.tipoMedia || '', // foto, video o youtube
+            tipo_media : $scope.tipoMedia || '', // image, video o youtube
             url_media: $scope.urlMedia || '0'
         };
 

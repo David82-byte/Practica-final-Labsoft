@@ -1,12 +1,16 @@
-#cabeceraPerfil {
+/* TUITS */
+#listaTuits {
+    padding: 15px 0;
+    border-bottom: 1px solid var(--color-borde);
+}
+
+/* MENSAJE SIN TUITS */
+#listaTuits h1 {
     text-align: center;
-    padding: 20px;
+    color: #777;
 }
 
-.avatar, .name {
-    cursor:auto;
-}
-
-.name:hover {
-    text-decoration: none;    
+/* Transición suave */
+#listaTuits article button {
+    transition: all 0.2s ease;
 }

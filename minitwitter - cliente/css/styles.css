@@ -36,7 +36,7 @@ nav {
 }
 
 /* logo */
-nav a {
+nav h2 {
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: 800;
@@ -91,22 +91,10 @@ main {
 }
 
 /* cabeceras de las paginas */
-main > header, section > h3 {
+main > header, section > h1 {
     font-size: 1.2rem;
     padding: 15px 20px;
     border-bottom: 1px solid var(--color-borde);
-}
-
-/* TUITS */
-#listaTuits {
-    padding: 15px 0;
-    border-bottom: 1px solid var(--color-borde);
-}
-
-/* MENSAJE SIN TUITS */
-#listaTuits h1 {
-    text-align: center;
-    color: #777;
 }
 
 /* tarjeta de cada tuit */
@@ -152,11 +140,6 @@ article header {
     text-decoration: underline;
 }
 
-.fecha {
-    color: var(--color-gris);
-    font-size: 0.9rem;
-}
-
 /* mensaje */
 .texto {
     font-size: 1.1rem;
@@ -165,6 +148,10 @@ article header {
 }
 
 /* multimedia */
+.media {
+    margin-bottom: 15px;
+}
+
 .media img, .media video, .media iframe {
     max-width: 100%;
     border-radius: 16px;
@@ -201,51 +188,9 @@ button:hover i {
     transform: scale(1.2);
 }
 
-.btnResponder:hover {
-    color: var(--color-primario);
-    background-color: rgba(29, 155, 240, 0.1);
-}
-
-.btnRetuit:hover {
-    color: #00ba7c;
-    background-color: rgba(0, 186, 124, 0.1);
-}
-
-/* RETUIT pulsado */
-.btnRetuit.activo {
-    color: #17bf63;
-    font-weight: bold;
-}
-
-.btnLike:hover {
-    color: #f91880;
-    background-color: rgba(249, 24, 128, 0.1);
-}
-
-/* LIKE pulsado */
-.btnLike.activo {
-    color: #e0245e;
-    font-weight: bold;
-}
-
-.btnEliminar {
-    display:none;
-}
-
 .btnEliminar:hover {
     color: #f4212e;
     background-color: rgba(244, 33, 46, 0.1);
-}
-
-/* Animación al activar */
-.btnLike.activo,
-.btnRetuit.activo {
-    transform: scale(1.1);
-}
-
-/* Transición suave */
-#listaTuits article button {
-    transition: all 0.2s ease;
 }
 
 /* ===== PAGINACIÓN ===== */

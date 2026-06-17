@@ -1,7 +1,10 @@
 const API_URL = "http://localhost:3000";
-const app = angular.module("minitwitterApp", []);
+// Inicializamos la aplicación de Angular
+angular.module("minitwitterApp", [])
 
-app.controller("AdminController", function ($scope, $http, $window) {
+// CONTROLADOR DEL LA PAGINA DEL ADMINISTRADOR
+// Le inyectamos $scope (variables de la vista), $http (hablar con el servidor) y $window (usar sessionStorage)
+.controller("AdminController", function ($scope, $http, $window) {
 
     if(!$window.sessionStorage.getItem("token")){
         $window.location.href = "index.html";
@@ -9,8 +12,7 @@ app.controller("AdminController", function ($scope, $http, $window) {
 
     $scope.usuario = {};
     $scope.usuarios = [];
-    $scope.tuits = [];
-    
+    $scope.tuits = [];    
 
     $scope.cargarUsuarios = function () {
 
@@ -18,7 +20,6 @@ app.controller("AdminController", function ($scope, $http, $window) {
         .then(function (response) {
             $scope.usuarios = response.data;
         });
-
     };
 
     $scope.usuario = {
@@ -31,40 +32,35 @@ app.controller("AdminController", function ($scope, $http, $window) {
         .then(function (response) {
             $scope.tuits = response.data;
         });
-
     };
 
     $scope.crearUsuario = function () {
 
         $http.post(API_URL + "/usuarios", $scope.nuevoUsuario)
         .then(function () {
-
             $scope.nuevoUsuario = {};
             $scope.cargarUsuarios();
-
         })
         .catch(function(err){
             console.log(err);
             alert("Error al crear usuario");
         });
-
     };
 
     $scope.editarUsuario = function(usuario){
 
-        const nuevoNombre = prompt("Nuevo nombre", usuario.username);
-        const nuevaPasswd = prompt("Nueva contraseña", usuario.passwd);
-
-        if(!nuevoNombre||!nuevaPasswd) return;
-
         $http.put(API_URL + "/usuarios/" + usuario.id, {
-            username: nuevoNombre,
-            passwd: nuevaPasswd
+            username: usuario.username,
+            passwd: usuario.passwd
         })
-        .then(function(){
+        .then(function(){            
+            alert("Usuario actualizado");
             $scope.cargarUsuarios();
+        })
+        .catch(function(err){
+            console.log(err);
+            alert("Error al actualizar usuario");
         });
-
     };
 
     $scope.eliminarUsuario = function (id) {
@@ -73,11 +69,8 @@ app.controller("AdminController", function ($scope, $http, $window) {
 
         $http.delete(API_URL + "/usuarios/" + id)
         .then(function () {
-
             $scope.cargarUsuarios();
-
         });
-
     };
 
     $scope.eliminarTuit = function (id) {
@@ -114,13 +107,10 @@ app.controller("AdminController", function ($scope, $http, $window) {
     };
 
     $scope.logout = function () {
-
         $window.sessionStorage.clear();
         $window.location.href = "index.html";
-
     };
 
     $scope.cargarUsuarios();
     $scope.cargarTuits();
-
 });

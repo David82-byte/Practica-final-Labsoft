@@ -3,10 +3,15 @@
     padding: 20px;
     border: none;
     border-radius: 12px;
+    display: flex;
+    position: fixed; /* se queda pegado al scrollear */
+    inset: 0;
     margin: 0 auto; /* centrar columna en la pantalla */
     width: 400px;
+    max-height: 300px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     animation: aparecer 0.25s ease;
+    background-color: white;
 }
 
 /* Fondo oscuro detrás del modal */
@@ -27,20 +32,10 @@
 }
 
 /* Título */
-h5 {
+h4 {
     font-size: 20px;
     color: #1da1f2;
     margin-bottom: 8px;
-}
-
-h6 {
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-/* Contenedor de respuesta */
-#tuitRespondido {
-    color: #555;
 }
 
 /* Textarea */
@@ -97,16 +92,6 @@ h6 {
 
 #btnPublicar:hover {
     background: #0d8ddb;
-}
-
-/* Botón responder */
-#btnResponderTuit {
-    background: #17bf63;
-    color: white;
-}
-
-#btnResponderTuit:hover {
-    background: #13a654;
 }
 
 /* Botón cancelar */
